@@ -25,9 +25,12 @@ spring:
           actual-data-nodes: sharding${0..1}.t_order_$->{0..1}
           table-strategy:
             # ??????
-            inline:
-              algorithm-expression: t_order_$->{id.longValue() % 2}
-              sharding-column: id
+#            inline:
+#              algorithm-expression: t_order_$->{order_id.longValue() % 2}
+#              sharding-column: order_id
+            standard:
+              sharding-column: order_id
+              precise-algorithm-class-name: com.sharding.jdbc.shardingjdbc.config.MyPreciseShardingAlgorithm
     props:
       sql:
         show: true

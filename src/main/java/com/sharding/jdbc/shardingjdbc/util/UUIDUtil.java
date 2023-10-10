@@ -5,12 +5,10 @@ import java.util.UUID;
 public class UUIDUtil {
 
     public static Integer getUUID() {
-        UUID uuid = UUID.randomUUID();
-        long mostSignificantBits = uuid.getMostSignificantBits();
-        long leastSignificantBits = uuid.getLeastSignificantBits();
-        return (int) (mostSignificantBits ^ (mostSignificantBits >>> 32)
-                ^ leastSignificantBits ^ (leastSignificantBits >>> 32));
+        int hashCode = UUID.randomUUID().hashCode();
+        return Math.abs(hashCode);
     }
+
 
 
 }
