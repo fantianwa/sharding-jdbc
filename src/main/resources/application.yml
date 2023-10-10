@@ -1,0 +1,33 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: sharding-jdbc
+  shardingsphere:
+    datasource:
+      names: sharding0,sharding1
+      sharding0:
+        type: com.zaxxer.hikari.HikariDataSource
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        jdbc-url: jdbc:mysql://127.0.0.1:3306/sharding0?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=Asia/Shanghai
+        username: root
+        password: 1QAZ@ftw123
+      sharding1:
+        type: com.zaxxer.hikari.HikariDataSource
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        jdbc-url: jdbc:mysql://127.0.0.1:3306/sharding1?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=Asia/Shanghai
+        username: root
+        password: 1QAZ@ftw123
+    sharding:
+      tables:
+        t_order:
+          # ????????
+          actual-data-nodes: sharding${0..1}.t_order_$->{0..1}
+          table-strategy:
+            # ??????
+            inline:
+              algorithm-expression: t_order_$->{id.longValue() % 2}
+              sharding-column: id
+    props:
+      sql:
+        show: true
